@@ -45,6 +45,14 @@ int main()
                 char hostIp[ 256 ] = {};
                 if( enet_address_get_host_ip( &event.peer->address, hostIp, sizeof( hostIp ) ) == 0 ) {
                     LOG( "Message from " << hostIp );
+                    char textBuffer[ 256 ] = {};
+                    if( event.packet->dataLength < 256 ) {
+                        memcpy( textBuffer, event.packet->data, event.packet->dataLength );
+                        LOG( textBuffer );
+                    }
+                    else {
+                        LOG( "Msg to big, ignoring it" );
+                    }
                 }
                 else {
                     LOG( "Unable to retrieve IP address" );
